@@ -6,18 +6,18 @@
   tasks:
     - name: Ensure app directory exists
       file:
-        path: /home/sajja_vamsi/app
+        path: /home/ubuntu/app
         state: directory
-        owner: sajja_vamsi
-        group: sajja_vamsi
+        owner: ubuntu
+        group: ubuntu
         mode: '0755'
 
     - name: Copy code from Jenkins workspace
       copy:
         src: "{{ playbook_dir }}/../"
-        dest: /home/sajja_vamsi/app/
-        owner: sajja_vamsi
-        group: sajja_vamsi
+        dest: /home/ubuntu/app/
+        owner: ubuntu
+        group: ubuntu
         mode: '0755'
 
     - name: Ensure Python3 and venv are installed
@@ -29,13 +29,13 @@
         update_cache: yes
 
     - name: Create Python virtual environment
-      command: python3 -m venv /home/sajja_vamsi/app/venv
+      command: python3 -m venv /home/ubuntu/app/venv
       args:
-        creates: /home/sajja_vamsi/app/venv
+        creates: /home/ubuntu/app/venv
 
     - name: Install Flask in virtual environment
       shell: |
-        source /home/sajja_vamsi/app/venv/bin/activate
+        source /home/ubuntu/app/venv/bin/activate
         pip install flask
       args:
         executable: /bin/bash
@@ -49,9 +49,9 @@
           After=network.target
 
           [Service]
-          User=sajja_vamsi
-          WorkingDirectory=/home/sajja_vamsi/app
-          ExecStart=/home/sajja_vamsi/app/venv/bin/python /home/sajja_vamsi/app/app.py
+          User=ubuntu
+          WorkingDirectory=/home/ubuntu/app
+          ExecStart=/home/ubuntu/app/venv/bin/python /home/ubuntu/app/app.py
           Restart=always
           Environment=FLASK_ENV=production
 
